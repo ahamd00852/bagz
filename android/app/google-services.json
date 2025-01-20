@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350360582792",
+    "project_id": "bagz-b882a",
+    "storage_bucket": "bagz-b882a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350360582792:android:228083ed5b8cfa6ce23d3d",
+        "android_client_info": {
+          "package_name": "com.example.bagz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAGLzSp1WukKh37TBXxTSdUX1vz8gc5EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
