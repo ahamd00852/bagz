@@ -91,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 builder: (context) =>
                                                     const Scaffold(
                                                       body: Center(
-                                                        child: Text('Home'),
+                                                        child: Text('Homee'),
                                                       ),
                                                     )));
                                       } on FirebaseAuthException catch (e) {

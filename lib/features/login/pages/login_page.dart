@@ -1,4 +1,5 @@
 import 'package:bagz/core/widgets/text_feild.dart';
+import 'package:bagz/features/home/presentation/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -77,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                                         setState(() {
                                           isLoading=false;
                                         });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Scaffold(body: Center(child: Text('data'),),)));
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
                                       } on FirebaseAuthException catch (e) {
                                         setState(() {
                                           isLoading=false;
