@@ -1,3 +1,4 @@
+import 'package:bagz/features/home/presentation/pages/details_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: Icon(Icons.account_circle_sharp),
+        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: Column(
@@ -56,10 +58,15 @@ class _HomePageState extends State<HomePage> {
                       gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2, childAspectRatio: .8),
-                              itemBuilder: (context, index) => BagWidget(
-                                    imageUrl: snapshot.requireData.docs[index]['image'],
-                                    name: snapshot.requireData.docs[index]['name'],
-                                  ))
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsPage(id: snapshot.requireData.docs[index].id,)));
+                                },
+                                child: BagWidget(
+                                      imageUrl: snapshot.requireData.docs[index]['image'],
+                                      name: snapshot.requireData.docs[index]['name'],
+                                    ),
+                              ))
                           : Center(
                               child: Text('Failed'),
                             );

@@ -29,8 +29,9 @@ class BagWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.network(
-                        imageUrl),
+                   FadeInImage.assetNetwork(placeholder: 'assets/images/Artsy.png', image: imageUrl,
+                   imageErrorBuilder: (context, error, stackTrace) => Image.asset('assets/images/Artsy.png'),
+                   ),
                     Text(
                       name,
                       style:
