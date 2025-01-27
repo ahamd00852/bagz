@@ -21,7 +21,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     h.add(LoadOneBag(widget.id));
     super.initState();
   }
