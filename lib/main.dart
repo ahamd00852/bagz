@@ -1,11 +1,17 @@
+import 'package:bagz/features/home/data/data_source/firestore_service.dart';
+import 'package:bagz/features/home/presentation/bloc/bagz_bloc.dart';
+import 'package:bagz/features/home/presentation/pages/home_page.dart';
+import 'package:bagz/features/login/pages/login_page.dart';
 import 'package:bagz/notification_service.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'features/login/pages/register_page.dart';
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -25,8 +31,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(410, 823),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (_, child) => const MaterialApp(
-        home: RegisterPage(),
+      builder: (_, child) =>
+      MaterialApp(
+        home: const LoginPage(),
         debugShowCheckedModeBanner: false,
       ),
     );

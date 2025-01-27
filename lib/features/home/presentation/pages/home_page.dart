@@ -1,6 +1,9 @@
+import 'package:bagz/features/home/data/models/bagz_model.dart';
+import 'package:bagz/features/home/presentation/bloc/bagz_bloc.dart';
 import 'package:bagz/features/home/presentation/pages/details_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/bag_widget.dart';
@@ -17,11 +20,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    BlocProvider.of<BagzBloc>(context).add(LoadBagz());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -44,33 +49,51 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.fitWidth,
                 )),
           ),
-          Expanded(
-            child: FutureBuilder(
-                future: db.collection('products').get(),
-                builder: (context, snapshot) {
-                  return snapshot.connectionState == ConnectionState.waiting
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : snapshot.connectionState == ConnectionState.done
-                          ?snapshot.requireData.docs.isEmpty?Center(child: Text('No Data'),) :GridView.builder(
-                      itemCount: snapshot.requireData.docs.length,
-                      gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2, childAspectRatio: .8),
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsPage(id: snapshot.requireData.docs[index].id,)));
-                                },
-                                child: BagWidget(
-                                      imageUrl: snapshot.requireData.docs[index]['image'],
-                                      name: snapshot.requireData.docs[index]['name'],
-                                    ),
-                              ))
-                          : Center(
-                              child: Text('Failed'),
-                            );
-                }),
+          BlocBuilder<BagzBloc, BagzState>(
+            builder: (context, state) {
+              if (state is BagzLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is LoadedBagz) {
+                List<BagzModel> data=state.myData;
+                return Expanded(
+                  child: GridView.builder(
+                      itemCount: data.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2, childAspectRatio: .8),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailsPage(
+                                                      id: data[index].id,
+                                        )));
+                          },
+                          child: BagWidget(
+                            imageUrl: data[index].image,
+                            name: data[index].name,
+                          ),
+                        );
+                      }),
+                );
+              } else if (state is BagzOperationSuccess) {
+                return Container();
+              } else if (state is BagzError) {
+                return Column(
+                  children: [
+                    Center(
+                      child: Text(state.errorMessage),
+                    ),
+                    Icon(Icons.refresh)
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            },
           )
         ],
       ),
